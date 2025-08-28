@@ -44,8 +44,19 @@ def midpoint_ellipse(x_center, y_center, rx, ry):
 			d2 += rx2 - py + px
 	return list(set(points))
 
-def draw_ellipse(points):
-	ellipse = turtle.Turtle()
+
+def mirror_points(points,axis):
+	mirrored = []
+	for x, y in points:
+		if axis == 'x':
+			mirrored.append((x, -y))
+		elif axis == 'y':
+			mirrored.append((-x, y))
+		elif axis == 'xy':
+			mirrored.append((-x, -y))
+	return mirrored
+
+def draw_ellipse(points,ellipse):
 	ellipse.speed(1000)
 	ellipse.penup()
 	ellipse.goto(points[0][0], points[0][1])
@@ -58,14 +69,22 @@ def draw_ellipse(points):
 	ellipse.fillcolor('yellow')
 	ellipse.begin_fill()
 	ellipse.end_fill()
-	turtle.done()
 
 
+
+ellipse = turtle.Turtle()
 x1, y1 = map(float, input("Enter the coordinates of the center (x1, y1): ").split())
 rx = float(input("Enter the x-radius (rx) of the ellipse: "))
 ry = float(input("Enter the y-radius (ry) of the ellipse: "))
+
+axis = input("Enter the axis of reflection (x, y, xy): ")
+
+
 points = midpoint_ellipse(x1, y1, rx, ry)
-draw_ellipse(points)
+draw_ellipse(points, ellipse)
 
+mirrored_points = mirror_points(points, axis)
+draw_ellipse(mirrored_points, ellipse)
 
+turtle.done()
 

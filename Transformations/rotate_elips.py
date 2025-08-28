@@ -1,4 +1,5 @@
 import turtle
+import math
 
 def midpoint_ellipse(x_center, y_center, rx, ry):
 	points = []
@@ -44,8 +45,31 @@ def midpoint_ellipse(x_center, y_center, rx, ry):
 			d2 += rx2 - py + px
 	return list(set(points))
 
-def draw_ellipse(points):
-	ellipse = turtle.Turtle()
+
+def rotate_points(points,x_center,y_center,angle):
+	rotated_points = []
+	radians = math.radians(angle)
+	sin_value = math.sin(radians)
+	cos_value = math.cos(radians)
+
+	for x, y in points:
+		'''
+		x_shifted = x - x_center
+		y_shifted = y - y_center
+
+		x_rotated = (x_shifted * cos_value) - (y_shifted * sin_value) + x_center
+		y_rotated = (x_shifted * sin_value) + (y_shifted * cos_value) + y_center
+		'''
+		x_rotated = (x* cos_value) - (y * sin_value) 
+		y_rotated = (x * sin_value) + (y * cos_value) 
+
+		rotated_points.append((x_rotated, y_rotated))
+	return rotated_points
+
+
+
+def draw_ellipse(points, ellipse):
+	
 	ellipse.speed(1000)
 	ellipse.penup()
 	ellipse.goto(points[0][0], points[0][1])
@@ -58,14 +82,22 @@ def draw_ellipse(points):
 	ellipse.fillcolor('yellow')
 	ellipse.begin_fill()
 	ellipse.end_fill()
-	turtle.done()
+	
 
 
+
+turtle_pen  = turtle.Turtle()
 x1, y1 = map(float, input("Enter the coordinates of the center (x1, y1): ").split())
 rx = float(input("Enter the x-radius (rx) of the ellipse: "))
 ry = float(input("Enter the y-radius (ry) of the ellipse: "))
+
+rotation_degree = float(input("Enter the rotation degree of the ellipse: "))
+
+
 points = midpoint_ellipse(x1, y1, rx, ry)
-draw_ellipse(points)
+draw_ellipse(points, turtle_pen)
 
+new_points = rotate_points(points, x1, y1, rotation_degree)
+draw_ellipse(new_points, turtle_pen)
 
-
+turtle.done()
