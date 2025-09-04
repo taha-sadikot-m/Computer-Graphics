@@ -69,7 +69,6 @@ radius = float(input("Enter the radius of the circle: "))
 x_scale,y_scale = map(float, input("Enter the scaling factors (x_scale, y_scale): ").split())
 
 
-
 points = Besherman_circle(x1, y1, radius)
 draw_circle(points,circle)
 
